@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        .login-container {
+            text-align: center;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-container h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .login-button-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .login-button-container img {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+
+        .login-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin: 10px 0;
+        }
+
+        .login-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h1>
+        <!-- כפתור כניסה לעמוד פנימי -->
+        <div class="login-button-container">
+            <img src="19T.png" alt="Smart Guard Icon">
+            <button class="login-button" onclick="redirectToHome()">Smart guard</button>
+        </div>
+        <!-- כפתור כניסה לקישור חיצוני -->
+        <div class="login-button-container">
+            <img src="9T.png" alt="Magic Manager Icon">
+            <button class="login-button" onclick="redirectToExternal()">Magic manager</button>
+        </div>
+        <!-- כפתור www.magicguard.com -->
+        <div class="login-button-container">
+            <img src="לוגו 2.png" alt="Magic Guard Icon">
+            <button class="login-button" onclick="redirectToMagicGuard()">magic guard.com</button>
+        </div>
+    </div>
+
+    <script>
+        // פונקציה להפניה לעמוד הבית
+        function redirectToHome() {
+            window.location.href = "home.html";
+        }
+
+        // פונקציה להפניה לקישור חיצוני
+        function redirectToExternal() {
+            window.location.href = "https://magicguard25.github.io/magicmanager/";
+        }
+
+        // פונקציה להפניה לעמוד/קישור חדש
+        function redirectToNew() {
+            window.location.href = "newpage.html"; // עדכן את הכתובת
+        }
+
+        // פונקציה להפניה לאתר www.magicguard.com
+        function redirectToMagicGuard() {
+            window.location.href = "https://www.magickguard.com";
+        }
+    </script>
+</body>
+
+</html>

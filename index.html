@@ -81,6 +81,12 @@
             <img src="לוגו 2.png" alt="Magic Guard Icon">
             <button class="login-button" onclick="redirectToMagicGuard()">magickguard.com</button>
         </div>
+
+        <!-- כפתור הפנייה לקבוצת הטלגרם -->
+        <div class="login-button-container">
+            <img src="telegram.png" alt="Telegram Group Icon">
+            <button class="login-button" onclick="redirectToTelegram()">Telegram Group</button>
+        </div>
     </div>
 
     <script>
@@ -97,6 +103,11 @@
         // פונקציה להפניה לאתר www.magickguard.com
         function redirectToMagicGuard() {
             window.location.href = "https://www.magickguard.com";
+        }
+
+        // פונקציה להפניה לקבוצת הטלגרם
+        function redirectToTelegram() {
+            window.open("https://t.me/+eHvnKxGtmx84OTI0", "_blank");
         }
     </script>
 </body>

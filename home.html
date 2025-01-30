@@ -114,7 +114,7 @@
     <script src="static/js/chunk-vendors.111f4aba.js"></script>
     <script src="static/js/app.edf7c9aa.js"></script>
     <script>
-        const apiKey = '';
+        const apiKey = 'AIzaSyAEJ_V9O_jQmnd5kiq7m6Kz0q--N6ni2Mw';
         let currentLanguage = 'en';
         let isDragging = false;
         let dragThreshold = 10; // Threshold to differentiate between drag and click
@@ -123,7 +123,7 @@
         async function translateText(text, targetLang) {
             if (!text.trim()) return text;
             try {
-                const response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
+                const response = await fetch(https://translation.googleapis.com/language/translate/v2?key=${apiKey}, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -228,8 +228,8 @@
                 }
                 if (!isDragging) return;
 
-                button.style.left = `${touch.clientX - offsetX}px`;
-                button.style.top = `${touch.clientY - offsetY}px`;
+                button.style.left = ${touch.clientX - offsetX}px;
+                button.style.top = ${touch.clientY - offsetY}px;
             };
 
             const endDrag = () => {

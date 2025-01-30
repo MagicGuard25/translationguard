@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=0.8, maximum-scale=1, user-scalable=yes">
     <link rel="icon" href="favicon.ico">
     <title>vue3</title>
 
@@ -13,35 +13,12 @@
     <link href="static/css/app.a26d5cbe.css" rel="stylesheet">
 
     <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            padding: 10px;
-        }
-
-        /* התאמת הקונטיינר */
-        #app {
-            text-align: center;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            width: 100%;
-            max-width: 320px; /* גודל מותאם למובייל */
-        }
-
-        /* כפתור בחירת שפה */
         #toggleMenu {
             position: fixed;
-            top: 15px;
-            right: 15px;
-            width: 45px;
-            height: 45px;
+            top: 50px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
             background: #333;
             color: white;
             border: none;
@@ -51,16 +28,15 @@
             justify-content: center;
             cursor: pointer;
             z-index: 1001;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: bold;
             user-select: none;
         }
 
-        /* תפריט שפות */
         #languageMenu {
             position: fixed;
-            top: 65px;
-            right: 15px;
+            top: 110px;
+            right: 20px;
             background: white;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -68,17 +44,16 @@
             padding: 10px;
             display: none;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             z-index: 1000;
-            animation: fadeIn 0.3s ease;
-            width: 140px;
         }
 
         #languageMenu.show {
             display: flex;
+            animation: slideDown 0.3s ease;
         }
 
-        @keyframes fadeIn {
+        @keyframes slideDown {
             from {
                 opacity: 0;
                 transform: translateY(-5px);
@@ -90,13 +65,12 @@
         }
 
         .langButton {
-            padding: 8px 12px;
+            padding: 10px 16px;
             border: none;
-            border-radius: 15px;
+            border-radius: 20px;
             cursor: pointer;
             background: #f0f0f0;
             color: #000;
-            font-size: 14px;
             transition: all 0.3s;
         }
 
@@ -105,7 +79,6 @@
             color: black;
         }
 
-        /* הודעת טעינה */
         .loading {
             position: fixed;
             top: 50%;
@@ -113,37 +86,19 @@
             transform: translate(-50%, -50%);
             background: rgba(0, 0, 0, 0.8);
             color: white;
-            padding: 15px;
+            padding: 20px;
             border-radius: 8px;
             display: none;
             z-index: 1002;
-            font-size: 14px;
-        }
-
-        /* התאמות למובייל */
-        @media (max-width: 480px) {
-            #app {
-                max-width: 280px;
-                padding: 15px;
-            }
-
-            #toggleMenu {
-                width: 40px;
-                height: 40px;
-                font-size: 12px;
-            }
-
-            .langButton {
-                font-size: 12px;
-                padding: 6px 10px;
-            }
+            font-size: 16px;
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
     <noscript>
-        <strong>Please enable JavaScript to use this website.</strong>
+        <strong>We're sorry but vue3 doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
 
     <button id="toggleMenu">EN</button>
@@ -155,11 +110,8 @@
         <button class="langButton" data-lang="es">Español</button>
         <button class="langButton" data-lang="pt">Português</button>
     </div>
-    <div class="loading" id="loadingIndicator">Translating...</div>
-    <div id="app">
-        <h2>Welcome</h2>
-        <p>Select your language from the menu.</p>
-    </div>
+    <div class="loading" id="loadingIndicator">Translating... Visit <br> <a href="https://www.magickguard.com" target="_blank" style="color: yellow;">www.magickguard.com</a></div>
+    <div id="app"></div>
 
     <script src="static/js/chunk-vendors.111f4aba.js"></script>
     <script src="static/js/app.edf7c9aa.js"></script>
@@ -173,10 +125,12 @@
             try {
                 const response = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({
                         q: text,
-                        source: 'auto',
+                        source: 'zh-CN',
                         target: targetLang,
                         format: 'text'
                     })
@@ -190,8 +144,23 @@
             }
         }
 
-        function toggleLanguageMenu() {
-            document.getElementById('languageMenu').classList.toggle('show');
+        async function translateElement(element, targetLang) {
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+            let node;
+            while ((node = walker.nextNode())) {
+                const text = node.textContent.trim();
+                if (text) {
+                    node.textContent = await translateText(text, targetLang);
+                }
+            }
+        }
+
+        async function translatePage(lang) {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            loadingIndicator.style.display = 'block';
+            const app = document.getElementById('app');
+            if (app) await translateElement(app, lang);
+            loadingIndicator.style.display = 'none';
         }
 
         function setupLanguageMenu() {
@@ -201,9 +170,13 @@
                     currentLanguage = lang;
                     document.getElementById('toggleMenu').textContent = lang.toUpperCase();
                     toggleLanguageMenu();
-                    await translateText(document.getElementById('app').innerText, lang);
+                    await translatePage(lang);
                 });
             });
+        }
+
+        function toggleLanguageMenu() {
+            document.getElementById('languageMenu').classList.toggle('show');
         }
 
         document.addEventListener('DOMContentLoaded', () => {

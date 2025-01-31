@@ -245,4 +245,25 @@
             };
 
             const endDrag = () => {
-                document.body.style.touchAction
+                document.body.style.touchAction = '';
+                button.removeEventListener('mousemove', drag);
+                button.removeEventListener('mouseup', endDrag);
+                button.removeEventListener('touchmove', drag);
+                button.removeEventListener('touchend', endDrag);
+            };
+
+            button.addEventListener('mousedown', startDrag);
+            button.addEventListener('touchstart', startDrag);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setupLanguageMenu();
+            observeDomChanges();
+            document.getElementById('toggleMenu').addEventListener('click', toggleLanguageMenu);
+            makeButtonDraggable();
+            translatePage('en');  // תרגום אוטומטי לאנגלית
+        });
+    </script>
+</body>
+
+</html>

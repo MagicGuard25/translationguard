@@ -109,7 +109,7 @@
         <button class="langButton" data-lang="pt">Português</button>
     </div>
     <div class="loading" id="loadingIndicator">Translating...</div>
-    <div class="loading" id="loadingIndicator">Translating... www.magickguard.com</div>
+      <div class="loading" id="loadingIndicator">Translating... <a href="https://www.magickguard.com" target="_blank">www.magickguard.com</a></div>
     <div id="app"></div>
 
     <script src="static/js/chunk-vendors.111f4aba.js"></script>
@@ -244,8 +244,7 @@
                 button.style.top = `${touch.clientY - offsetY}px`;
 
                 positionLanguageMenu(); // עדכון מיקום התפריט כשהכפתור זז
-                // כשמזיזים את הכפתור, נעדכן את מיקום התפריט
-                positionLanguageMenu();
+                // כשמזיזים את הכפתור, נעדכן את מיקום התפרי
             };
 
             const endDrag = () => {

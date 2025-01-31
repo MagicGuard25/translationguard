@@ -192,13 +192,13 @@
         }
 
         function toggleLanguageMenu() {
-            if (!isDragging) {
-                const menu = document.getElementById('languageMenu');
-                menu.classList.toggle('show');
-                positionLanguageMenu(); // עדכון מיקום התפריט
-                positionLanguageMenu(); // עדכון מיקום התפריט ליד הכפתור
-            }
-        }
+    if (!isDragging) {
+        const menu = document.getElementById('languageMenu');
+        menu.classList.toggle('show');
+        positionLanguageMenu(); // קריאה יחידה למיקום התפריט
+    }
+}
+
 
         function positionLanguageMenu() {
             const button = document.getElementById('toggleMenu');

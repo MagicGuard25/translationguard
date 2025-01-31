@@ -114,8 +114,8 @@
     <script src="static/js/chunk-vendors.111f4aba.js"></script>
     <script src="static/js/app.edf7c9aa.js"></script>
     <script>
-        const apiKey = '';
         const apiKey = 'AIzaSyAEJ_V9O_jQmnd5kiq7m6Kz0q--N6ni2Mw';
+        const apiKey = 'AIzaSyAEJ_V9O_jQmnd5kiq7m6Kz0q--N6ni2Mw';  // הוספת ה-API שלך כאן
         let currentLanguage = 'en';
         let isDragging = false;
         let dragThreshold = 10; // Threshold to differentiate between drag and click
@@ -132,6 +132,7 @@
                     body: JSON.stringify({
                         q: text,
                         source: 'zh-CN',
+                        source: 'zh-CN', // אם תזדקק לשפה שונה להגדיר כאן
                         target: targetLang,
                         format: 'text'
                     })
@@ -196,9 +197,17 @@
             if (!isDragging) {
                 const menu = document.getElementById('languageMenu');
                 menu.classList.toggle('show');
+                positionLanguageMenu();
             }
         }
 
+        function positionLanguageMenu() {
+            const button = document.getElementById('toggleMenu');
+            const menu = document.getElementById('languageMenu');
+            const rect = button.getBoundingClientRect();
+            menu.style.left = `${rect.left}px`;
+            menu.style.top = `${rect.bottom + 10}px`;
+        }
         function makeButtonDraggable() {
             const button = document.getElementById('toggleMenu');
             let offsetX, offsetY;
@@ -231,6 +240,7 @@
 
                 button.style.left = `${touch.clientX - offsetX}px`;
                 button.style.top = `${touch.clientY - offsetY}px`;
+                positionLanguageMenu(); // עדכון מיקום התפריט כשהכפתור זז
             };
 
             const endDrag = () => {
@@ -248,19 +258,23 @@
         function makeMenuDraggable() {
             const menu = document.getElementById('languageMenu');
             let offsetX, offsetY;
+
             const startDrag = (e) => {
                 const touch = e.touches ? e.touches[0] : e;
                 startX = touch.clientX;
                 startY = touch.clientY;
                 isDragging = false;
+
                 offsetX = touch.clientX - menu.getBoundingClientRect().left;
                 offsetY = touch.clientY - menu.getBoundingClientRect().top;
                 document.body.style.touchAction = 'none';
+
                 menu.addEventListener('mousemove', drag);
                 menu.addEventListener('mouseup', endDrag);
                 menu.addEventListener('touchmove', drag, { passive: false });
                 menu.addEventListener('touchend', endDrag);
             };
+
             const drag = (e) => {
                 e.preventDefault();
                 const touch = e.touches ? e.touches[0] : e;
@@ -270,9 +284,11 @@
                     isDragging = true;
                 }
                 if (!isDragging) return;
+
                 menu.style.left = `${touch.clientX - offsetX}px`;
                 menu.style.top = `${touch.clientY - offsetY}px`;
             };
+
             const endDrag = () => {
                 document.body.style.touchAction = '';
                 menu.removeEventListener('mousemove', drag);
@@ -280,9 +296,11 @@
                 menu.removeEventListener('touchmove', drag);
                 menu.removeEventListener('touchend', endDrag);
             };
+
             menu.addEventListener('mousedown', startDrag);
             menu.addEventListener('touchstart', startDrag);
         }
+
         document.addEventListener('DOMContentLoaded', () => {
             setupLanguageMenu();
             observeDomChanges();
@@ -290,6 +308,7 @@
             makeButtonDraggable();
             makeMenuDraggable();  // הוספת התמיכה לגרירת התפריט
             translatePage(currentLanguage);
+            translatePage(currentLanguage); // תרגום אוטומטי לאנגלית
         });
     </script>
 </body>

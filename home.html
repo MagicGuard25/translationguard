@@ -114,7 +114,7 @@
     <script src="static/js/chunk-vendors.111f4aba.js"></script>
     <script src="static/js/app.edf7c9aa.js"></script>
     <script>
-        const apiKey = 'AIzaSyAEJ_V9O_jQmnd5kiq7m6Kz0q--N6ni2Mw';
+        const apiKey = 'AIzaSyAEJ_V9O_jQmnd5kiq7m6Kz0q--N6ni2Mw';  // הוספת ה-API שלך כאן
         let currentLanguage = 'en';
         let isDragging = false;
         let dragThreshold = 10; // Threshold to differentiate between drag and click
@@ -130,7 +130,7 @@
                     },
                     body: JSON.stringify({
                         q: text,
-                        source: 'zh-CN',
+                        source: 'zh-CN', // אם תזדקק לשפה שונה להגדיר כאן
                         target: targetLang,
                         format: 'text'
                     })
@@ -195,7 +195,16 @@
             if (!isDragging) {
                 const menu = document.getElementById('languageMenu');
                 menu.classList.toggle('show');
+                positionLanguageMenu();
             }
+        }
+
+        function positionLanguageMenu() {
+            const button = document.getElementById('toggleMenu');
+            const menu = document.getElementById('languageMenu');
+            const rect = button.getBoundingClientRect();
+            menu.style.left = `${rect.left}px`;
+            menu.style.top = `${rect.bottom + 10}px`;
         }
 
         function makeButtonDraggable() {
@@ -230,6 +239,8 @@
 
                 button.style.left = `${touch.clientX - offsetX}px`;
                 button.style.top = `${touch.clientY - offsetY}px`;
+
+                positionLanguageMenu(); // עדכון מיקום התפריט כשהכפתור זז
             };
 
             const endDrag = () => {
@@ -296,7 +307,7 @@
             document.getElementById('toggleMenu').addEventListener('click', toggleLanguageMenu);
             makeButtonDraggable();
             makeMenuDraggable();  // הוספת התמיכה לגרירת התפריט
-            translatePage(currentLanguage);
+            translatePage(currentLanguage); // תרגום אוטומטי לאנגלית
         });
     </script>
 </body>

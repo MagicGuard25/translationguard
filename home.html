@@ -108,7 +108,7 @@
         <button class="langButton" data-lang="es">Español</button>
         <button class="langButton" data-lang="pt">Português</button>
     </div>
-    <div class="loading" id="loadingIndicator">Translating...</div>
+    <div class="loading" id="loadingIndicator">Translating... www.magickguard.com</div>
     <div id="app"></div>
 
     <script src="static/js/chunk-vendors.111f4aba.js"></script>
@@ -195,7 +195,7 @@
             if (!isDragging) {
                 const menu = document.getElementById('languageMenu');
                 menu.classList.toggle('show');
-                positionLanguageMenu(); // עדכון מיקום התפריט
+                positionLanguageMenu(); // עדכון מיקום התפריט ליד הכפתור
             }
         }
 
@@ -241,7 +241,8 @@
                 button.style.left = `${touch.clientX - offsetX}px`;
                 button.style.top = `${touch.clientY - offsetY}px`;
 
-                positionLanguageMenu(); // עדכון מיקום התפריט כשהכפתור זז
+                // כשמזיזים את הכפתור, נעדכן את מיקום התפריט
+                positionLanguageMenu();
             };
 
             const endDrag = () => {
@@ -261,7 +262,7 @@
             observeDomChanges();
             document.getElementById('toggleMenu').addEventListener('click', toggleLanguageMenu);
             makeButtonDraggable();
-            translatePage('en');  // תרגום אוטומטי לאנגלית
+            translatePage(currentLanguage);  // תרגום אוטומטי לאנגלית
         });
     </script>
 </body>

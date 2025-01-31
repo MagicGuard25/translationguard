@@ -16,7 +16,7 @@
         #toggleMenu {
             position: fixed;
             top: 50px;
-            right: 20px;
+            right: 80px;
             width: 50px;
             height: 50px;
             background: #333;
@@ -91,6 +91,11 @@
             border-radius: 8px;
             display: none;
             z-index: 1002;
+        }
+
+        /* הצבע הלבן לקישור */
+        #loadingIndicator a {
+            color: white;
         }
     </style>
 </head>
@@ -193,21 +198,22 @@
         }
 
         function toggleLanguageMenu() {
-    if (!isDragging) {
-        const menu = document.getElementById('languageMenu');
-        menu.classList.toggle('show');
-        positionLanguageMenu(); // קריאה יחידה למיקום התפריט
-    }
-}
-
+            if (!isDragging) {
+                const menu = document.getElementById('languageMenu');
+                menu.classList.toggle('show');
+                positionLanguageMenu();
+            }
+        }
 
         function positionLanguageMenu() {
-            const button = document.getElementById('toggleMenu');
             const menu = document.getElementById('languageMenu');
-            const rect = button.getBoundingClientRect();
-            // מיקום התפריט ליד הלחצן, כל הזמן
-            menu.style.left = `${rect.left}px`;
-            menu.style.top = `${rect.bottom + 10}px`;
+            const button = document.getElementById('toggleMenu');
+            const buttonRect = button.getBoundingClientRect();
+            const menuRect = menu.getBoundingClientRect();
+
+            // שינוי מיקום התפריט כך שיהיה ממורכז מתחת לכפתור
+            menu.style.top = `${buttonRect.bottom}px`;
+            menu.style.left = `${buttonRect.left + buttonRect.width / 2 - menuRect.width / 2}px`;
         }
 
         function makeButtonDraggable() {
@@ -233,16 +239,23 @@
             const drag = (e) => {
                 e.preventDefault();
                 const touch = e.touches ? e.touches[0] : e;
-                const dx = Math.abs(touch.clientX - startX);
-                const dy = Math.abs(touch.clientY - startY);
-                if (dx > dragThreshold || dy > dragThreshold) {
-                    isDragging = true;
-                }
-                if (!isDragging) return;
 
-                button.style.left = `${touch.clientX - offsetX}px`;
-                button.style.top = `${touch.clientY - offsetY}px`;
+                // חשב את המיקום החדש של הכפתור
+                let newLeft = touch.clientX - offsetX;
+                let newTop = touch.clientY - offsetY;
 
+                // בדוק שלא עוברים את גבולות החלון
+                const buttonWidth = button.offsetWidth;
+                const buttonHeight = button.offsetHeight;
+
+                if (newLeft < 0) newLeft = 0;
+                if (newTop < 0) newTop = 0;
+                if (newLeft + buttonWidth > window.innerWidth) newLeft = window.innerWidth - buttonWidth;
+                if (newTop + buttonHeight > window.innerHeight) newTop = window.innerHeight - buttonHeight;
+
+                // עדכן את המיקום של הכפתור
+                button.style.left = `${newLeft}px`;
+                button.style.top = `${newTop}px`;
             };
 
             const endDrag = () => {
@@ -262,10 +275,9 @@
             observeDomChanges();
             document.getElementById('toggleMenu').addEventListener('click', toggleLanguageMenu);
             makeButtonDraggable();
-            translatePage('en');  // תרגום אוטומטי לאנגלית
-            translatePage(currentLanguage);  // תרגום אוטומטי לאנגלית
+            translatePage('en');
+            translatePage(currentLanguage);
         });
     </script>
 </body>
-
 </html>

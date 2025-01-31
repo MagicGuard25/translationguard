@@ -195,7 +195,7 @@
             if (!isDragging) {
                 const menu = document.getElementById('languageMenu');
                 menu.classList.toggle('show');
-                positionLanguageMenu();
+                positionLanguageMenu(); // עדכון מיקום התפריט
             }
         }
 
@@ -203,6 +203,7 @@
             const button = document.getElementById('toggleMenu');
             const menu = document.getElementById('languageMenu');
             const rect = button.getBoundingClientRect();
+            // מיקום התפריט ליד הלחצן, כל הזמן
             menu.style.left = `${rect.left}px`;
             menu.style.top = `${rect.bottom + 10}px`;
         }
@@ -244,72 +245,4 @@
             };
 
             const endDrag = () => {
-                document.body.style.touchAction = '';
-                button.removeEventListener('mousemove', drag);
-                button.removeEventListener('mouseup', endDrag);
-                button.removeEventListener('touchmove', drag);
-                button.removeEventListener('touchend', endDrag);
-            };
-
-            button.addEventListener('mousedown', startDrag);
-            button.addEventListener('touchstart', startDrag);
-        }
-
-        function makeMenuDraggable() {
-            const menu = document.getElementById('languageMenu');
-            let offsetX, offsetY;
-
-            const startDrag = (e) => {
-                const touch = e.touches ? e.touches[0] : e;
-                startX = touch.clientX;
-                startY = touch.clientY;
-                isDragging = false;
-
-                offsetX = touch.clientX - menu.getBoundingClientRect().left;
-                offsetY = touch.clientY - menu.getBoundingClientRect().top;
-                document.body.style.touchAction = 'none';
-
-                menu.addEventListener('mousemove', drag);
-                menu.addEventListener('mouseup', endDrag);
-                menu.addEventListener('touchmove', drag, { passive: false });
-                menu.addEventListener('touchend', endDrag);
-            };
-
-            const drag = (e) => {
-                e.preventDefault();
-                const touch = e.touches ? e.touches[0] : e;
-                const dx = Math.abs(touch.clientX - startX);
-                const dy = Math.abs(touch.clientY - startY);
-                if (dx > dragThreshold || dy > dragThreshold) {
-                    isDragging = true;
-                }
-                if (!isDragging) return;
-
-                menu.style.left = `${touch.clientX - offsetX}px`;
-                menu.style.top = `${touch.clientY - offsetY}px`;
-            };
-
-            const endDrag = () => {
-                document.body.style.touchAction = '';
-                menu.removeEventListener('mousemove', drag);
-                menu.removeEventListener('mouseup', endDrag);
-                menu.removeEventListener('touchmove', drag);
-                menu.removeEventListener('touchend', endDrag);
-            };
-
-            menu.addEventListener('mousedown', startDrag);
-            menu.addEventListener('touchstart', startDrag);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setupLanguageMenu();
-            observeDomChanges();
-            document.getElementById('toggleMenu').addEventListener('click', toggleLanguageMenu);
-            makeButtonDraggable();
-            makeMenuDraggable();  // הוספת התמיכה לגרירת התפריט
-            translatePage(currentLanguage); // תרגום אוטומטי לאנגלית
-        });
-    </script>
-</body>
-
-</html>
+                document.body.style.touchAction
